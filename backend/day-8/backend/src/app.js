@@ -6,7 +6,7 @@ const cors = require("cors");
 const path = require("path");
 app.use(express.json());
 app.use(cors());
-app.use(express.static("./src/public"));
+app.use(express.static("./public"));
 
 //creating routes ::----
 
@@ -94,6 +94,8 @@ app.delete("/note/delete", async (req, res) => {
   }
 });
 
+console.log(__dirname);
+// C:\Users\arlmup\Desktop\Backend 2.0\cohort2.0\backend\day-8\backend\src
 app.use("*name", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "/public/index.html"));
 });
