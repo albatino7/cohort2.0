@@ -42,8 +42,10 @@ app.get("/note", async (req, res) => {
       notes,
     });
   } catch (error) {
+    console.log("Error in GET /note:", error);
     res.status(401).json({
       message: "getting error in Data fetching ",
+      error: error.message,
     });
   }
 });

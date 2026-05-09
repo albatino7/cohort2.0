@@ -7,9 +7,16 @@ function App() {
   console.log(note);
 
   const callingNotes = async () => {
-    const data = await axios.get("http://localhost:3000/note");
-    setNotes(data.data.notes);
-    console.log(data.data.notes);
+    try {
+      const data = await axios.get("http://localhost:3000/note");
+      console.log("Full response:", data);
+      console.log("Response data:", data.data);
+      console.log("Notes array:", data.data.note);
+      console.log("Notes length:", data.data.note?.length);
+      setNotes(data.data.note);
+    } catch (error) {
+      console.error("Error fetching notes:", error.message);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -24,7 +31,9 @@ function App() {
       })
       .then((value) => {
         console.log(value);
+
         callingNotes();
+        e.target.reset();
       });
   };
 
@@ -55,7 +64,8 @@ function App() {
         </form>
 
         <div className="cardContainer">
-          {note.map((value) => {
+          {note?.map((value) => {
+            console.log("Rendering note:", value);
             return (
               <div key={value._id} className="main">
                 <div className="name">{value.name}</div>
