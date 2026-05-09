@@ -3,8 +3,10 @@ const express = require("express");
 const noteModel = require("./model/notes.model");
 const app = express();
 const cors = require("cors");
+const path = require("path");
 app.use(express.json());
 app.use(cors());
+app.use(express.static("./src/public"));
 
 //creating routes ::----
 
@@ -54,9 +56,10 @@ app.get("/note", async (req, res) => {
 
 app.patch("/note/update", async (req, res) => {
   try {
-    const { id, email, city } = req.body;
+    const { id, name, email, city } = req.body;
     console.log(req.body);
     const notes = await noteModel.findByIdAndUpdate(id, {
+      name: name,
       email: email,
       city: city,
     });
@@ -89,6 +92,10 @@ app.delete("/note/delete", async (req, res) => {
       notes,
     });
   }
+});
+
+app.use("*name", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "/public/index.html"));
 });
 
 module.exports = app;

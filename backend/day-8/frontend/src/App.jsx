@@ -3,90 +3,226 @@ import axios from "axios";
 import "./App.css";
 
 function App() {
+  // STORE ALL NOTES
   const [note, setNotes] = useState([]);
-  console.log(note);
 
+  // STORE CURRENT EDITING ID
+  const [editId, setEditId] = useState(null);
+
+  // STORE EDIT INPUT DATA
+  const [editData, setEditData] = useState({
+    name: "",
+    email: "",
+    city: "",
+  });
+
+  // GET ALL NOTES
   const callingNotes = async () => {
     try {
       const data = await axios.get("http://localhost:3000/note");
-      console.log("Full response:", data);
-      console.log("Response data:", data.data);
-      console.log("Notes array:", data.data.note);
-      console.log("Notes length:", data.data.note?.length);
-      setNotes(data.data.note);
+
+      setNotes(data.data.notes);
     } catch (error) {
-      console.error("Error fetching notes:", error.message);
+      console.log(error);
     }
   };
 
-  const handleSubmit = (e) => {
+  // CREATE NOTE
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { name, email, city } = e.target.elements;
-    axios
-      .post("http://localhost:3000/note/create", {
+
+    try {
+      await axios.post("http://localhost:3000/note/create", {
         name: name.value,
         email: email.value,
         city: city.value,
-      })
-      .then((value) => {
-        console.log(value);
-
-        callingNotes();
-        e.target.reset();
       });
+
+      // RELOAD NOTES
+      callingNotes();
+
+      // RESET FORM
+      e.target.reset();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleDelete = (id) => {
-    console.log(id);
-    axios
-      .delete("http://localhost:3000/note/delete", { data: { id } })
-      .then((value) => {
-        callingNotes();
+  // DELETE NOTE
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete("http://localhost:3000/note/delete", {
+        data: { id },
       });
+
+      // RELOAD NOTES
+      callingNotes();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  // UPDATE NOTE
+  const handleUpdate = async () => {
+    try {
+      await axios.patch("http://localhost:3000/note/update", {
+        id: editId,
+        name: editData.name,
+        email: editData.email,
+        city: editData.city,
+      });
+
+      // RELOAD NOTES
+      callingNotes();
+
+      // CLOSE EDIT MODE
+      setEditId(null);
+
+      // CLEAR EDIT DATA
+      setEditData({
+        name: "",
+        email: "",
+        city: "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // PAGE LOAD
   useEffect(() => {
     callingNotes();
   }, []);
 
   return (
-    <>
-      <div className="container">
-        <form onSubmit={handleSubmit} className="form">
-          <input type="text" name="name" placeholder="Name" />
+    <div className="container">
+      {/* FORM */}
+      <form onSubmit={handleSubmit} className="form">
+        <input type="text" name="name" placeholder="Name" />
 
-          <input type="email" name="email" placeholder="Email" />
+        <input type="email" name="email" placeholder="Email" />
 
-          <input type="text" name="city" placeholder="City" />
+        <input type="text" name="city" placeholder="City" />
 
-          <button type="submit">Submit</button>
-        </form>
+        <button type="submit">Submit</button>
+      </form>
 
-        <div className="cardContainer">
-          {note?.map((value) => {
-            console.log("Rendering note:", value);
-            return (
-              <div key={value._id} className="main">
-                <div className="name">{value.name}</div>
+      {/* CARD SECTION */}
+      <div className="cardContainer">
+        {note?.map((value) => {
+          return (
+            <div key={value._id} className="main">
+              {editId === value._id ? (
+                <>
+                  {/* EDIT MODE */}
 
-                <div className="email">{value.email}</div>
+                  <input
+                    type="text"
+                    placeholder="Enter Name"
+                    value={editData.name}
+                    onChange={(e) =>
+                      setEditData({
+                        ...editData,
+                        name: e.target.value,
+                      })
+                    }
+                  />
 
-                <div className="city">{value.city}</div>
+                  <input
+                    type="email"
+                    placeholder="Enter Email"
+                    value={editData.email}
+                    onChange={(e) =>
+                      setEditData({
+                        ...editData,
+                        email: e.target.value,
+                      })
+                    }
+                  />
 
-                <button
-                  onClick={() => {
-                    handleDelete(value._id);
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            );
-          })}
-        </div>
+                  <input
+                    type="text"
+                    placeholder="Enter City"
+                    value={editData.city}
+                    onChange={(e) =>
+                      setEditData({
+                        ...editData,
+                        city: e.target.value,
+                      })
+                    }
+                  />
+
+                  {/* BUTTON GROUP */}
+
+                  <div className="buttonGroup">
+                    <button className="confirmBtn" onClick={handleUpdate}>
+                      Confirm
+                    </button>
+
+                    <button
+                      className="cancelBtn"
+                      onClick={() => {
+                        setEditId(null);
+
+                        setEditData({
+                          name: "",
+                          email: "",
+                          city: "",
+                        });
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* NORMAL MODE */}
+
+                  <div className="name">{value.name}</div>
+
+                  <div className="email">{value.email}</div>
+
+                  <div className="city">{value.city}</div>
+
+                  {/* BUTTON GROUP */}
+
+                  <div className="buttonGroup">
+                    <button
+                      className="deleteBtn"
+                      onClick={() => {
+                        handleDelete(value._id);
+                      }}
+                    >
+                      Delete
+                    </button>
+
+                    <button
+                      className="editBtn"
+                      onClick={() => {
+                        // OPEN EDIT MODE
+                        setEditId(value._id);
+
+                        // SET CURRENT VALUES
+                        setEditData({
+                          name: value.name,
+                          email: value.email,
+                          city: value.city,
+                        });
+                      }}
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 }
 
