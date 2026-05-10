@@ -1,0 +1,356 @@
+/* =========================
+   GOOGLE FONT
+========================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/* =========================
+   RESET
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   BODY
+========================= */
+
+body {
+  min-height: 100vh;
+
+  padding: 40px;
+
+  font-family: "Poppins", sans-serif;
+
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #111827,
+    #1e293b
+  );
+
+  overflow-x: hidden;
+}
+
+/* =========================
+   MAIN APP CONTAINER
+========================= */
+
+.app {
+  width: 100%;
+
+  max-width: 1200px;
+
+  margin: auto;
+}
+
+/* =========================
+   CREATE SECTION
+========================= */
+
+.formContainer {
+  width: 100%;
+
+  max-width: 600px;
+
+  margin: auto;
+  margin-bottom: 50px;
+
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+
+  border-radius: 28px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.06);
+
+  animation: fadeUp 0.8s ease;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.formContainer input {
+  width: 100%;
+
+  padding: 16px 18px;
+
+  border: 1px solid transparent;
+
+  border-radius: 16px;
+
+  outline: none;
+
+  font-size: 15px;
+
+  color: white;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  transition: 0.3s;
+}
+
+.formContainer input::placeholder {
+  color: #94a3b8;
+}
+
+.formContainer input:focus {
+  border-color: #8b5cf6;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  transform: scale(1.02);
+
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+}
+
+/* =========================
+   CREATE BUTTON
+========================= */
+
+.formContainer button {
+  padding: 16px;
+
+  border: none;
+
+  border-radius: 16px;
+
+  background: linear-gradient(
+    to right,
+    #3b82f6,
+    #8b5cf6
+  );
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.formContainer button:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 12px 25px rgba(59, 130, 246, 0.35);
+}
+
+/* =========================
+   CARD CONTAINER
+========================= */
+
+.cardContainer {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+  gap: 30px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+  width: 320px;
+
+  min-height: 250px;
+
+  padding: 28px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+
+  border-radius: 28px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+
+  transition: 0.35s;
+
+  animation: fadeUp 0.7s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.45),
+    0 0 20px rgba(139, 92, 246, 0.15);
+}
+
+/* =========================
+   TEXT
+========================= */
+
+.card h1 {
+  font-size: 28px;
+
+  color: white;
+
+  font-weight: 700;
+}
+
+.card h2 {
+  font-size: 16px;
+
+  color: #cbd5e1;
+
+  word-break: break-word;
+
+  font-weight: 400;
+}
+
+.card h3 {
+  width: fit-content;
+
+  padding: 8px 18px;
+
+  border-radius: 30px;
+
+  background: linear-gradient(
+    to right,
+    #06b6d4,
+    #3b82f6
+  );
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: 500;
+}
+
+/* =========================
+   BUTTON GROUP
+========================= */
+
+.buttonContainer {
+  margin-top: auto;
+
+  display: flex;
+
+  gap: 12px;
+}
+
+/* =========================
+   CARD BUTTONS
+========================= */
+
+.buttonContainer button {
+  flex: 1;
+
+  padding: 13px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+/* EDIT BUTTON */
+
+.editBtn {
+  background: linear-gradient(
+    to right,
+    #3b82f6,
+    #6366f1
+  );
+}
+
+.editBtn:hover {
+  transform: translateY(-3px);
+
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.35);
+}
+
+/* DELETE BUTTON */
+
+.deleteBtn {
+  background: linear-gradient(
+    to right,
+    #ef4444,
+    #dc2626
+  );
+}
+
+.deleteBtn:hover {
+  transform: translateY(-3px);
+
+  box-shadow: 0 10px 20px rgba(239, 68, 68, 0.35);
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+  }
+
+  .formContainer {
+    padding: 22px;
+  }
+
+  .card {
+    width: 100%;
+  }
+}
