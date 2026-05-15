@@ -10,16 +10,19 @@ const imageKit = new Imagekit({
 });
 
 async function createPostController(req, res) {
-  const token = req.cookies.token;
-  //   console.log(token);
+  // const token = req.cookies.token;
+  // //   console.log(token);
 
-  if (!token) {
-    res.status(409).json({
-      message: "Token is Expires ",
-    });
-  }
+  // if (!token) {
+  //   res.status(409).json({
+  //     message: "Token is Expires ",
+  //   });
+  // }
 
-  const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+  // const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+
+  const decoded = req.user;
+  console.log(decoded);
 
   const respone = await imageKit.files.upload({
     file: await toFile(req.file.buffer),
@@ -39,17 +42,20 @@ async function createPostController(req, res) {
 }
 
 async function getPostController(req, res) {
-  const token = req.cookies.token;
-  console.log(token);
+  // const token = req.cookies.token;
+  // console.log(token);
 
-  let decoded;
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
-    res.status(409).json({
-      message: "Token is not Valid",
-    });
-  }
+  // let decoded;
+  // try {
+  //   decoded = jwt.verify(token, process.env.JWT_SECRET);
+  // } catch (error) {
+  //   res.status(409).json({
+  //     message: "Token is not Valid",
+  //   });
+  // }
+
+  const decoded = req.user;
+  console.log(decoded);
 
   const userID = decoded.id;
 
@@ -65,20 +71,21 @@ async function getPostController(req, res) {
 
 async function getPostByIdController(req, res) {
   const { postid } = req.body;
-  const token = req.cookies.token;
-  console.log(token);
+  // const token = req.cookies.token;
+  // console.log(token);
 
-  let decoded;
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
-    res.status(409).json({
-      message: "Token is not Valid ",
-    });
-  }
+  // let decoded;
+  // try {
+  //   decoded = jwt.verify(token, process.env.JWT_SECRET);
+  // } catch (error) {
+  //   res.status(409).json({
+  //     message: "Token is not Valid ",
+  //   });
+  // }
 
-  console.log(decoded);
+  // console.log(decoded);
 
+  const decoded = req.user;
   const userID = decoded.id;
 
   const user = await userModel.findOne({ _id: userID });
